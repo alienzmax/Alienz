@@ -3,135 +3,422 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ada Pesan Buat Kamu! ❤️</title>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <title>Ada Pesan Spesial Buat Kamu! ❤️</title>
+  
+  <!-- Font Google & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #a1c4fd 100%);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      text-align: center;
       overflow: hidden;
+      position: relative;
     }
 
-    .container {
-      background: rgba(255, 255, 255, 0.85);
-      padding: 30px;
+    /* Floating Hearts Background */
+    .heart-bg {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.6);
+      animation: floatUp 6s linear infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.5) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.2) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Main Container Card */
+    .card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 30px 25px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(255, 154, 158, 0.35);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      z-index: 10;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    /* Slide Transition */
+    .slide {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Images / GIFs */
+    .gif-container {
+      margin: 15px 0;
+    }
+
+    .gif-container img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      max-width: 90%;
-      width: 350px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
+    /* Typography */
     h1 {
-      color: #e63946;
-      font-size: 1.8rem;
-      margin-bottom: 10px;
+      font-family: 'Caveat', cursive;
+      font-size: 2.3rem;
+      color: #ff4757;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      color: #2f3542;
+      margin-bottom: 12px;
+      font-weight: 600;
     }
 
     p {
-      color: #4a4a4a;
-      font-size: 1rem;
+      font-size: 0.95rem;
+      color: #57606f;
+      line-height: 1.5;
+      margin-bottom: 20px;
     }
 
-    button {
-      background-color: #ff4b2b;
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 15px;
+      position: relative;
+      min-height: 50px;
+    }
+
+    .btn {
+      background: linear-gradient(45deg, #ff4757, #ff6b81);
       color: white;
       border: none;
-      padding: 12px 24px;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 25px;
+      padding: 12px 26px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 30px;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);
-      transition: transform 0.2s, background-color 0.2s;
-      margin-top: 15px;
+      box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    button:hover {
-      transform: scale(1.05);
-      background-color: #ff416c;
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(255, 71, 87, 0.5);
+    }
+
+    .btn-secondary {
+      background: #ced6e0;
+      color: #2f3542;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Runaway "Gak" Button */
+    #btnNo {
+      position: absolute;
+      transition: all 0.2s ease;
+    }
+
+    /* Form Inputs */
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: #2f3542;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .input-group input, .input-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #ffeaa7;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      outline: none;
+      font-family: inherit;
+      background: #fff;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: #ff4757;
+    }
+
+    /* Music Toggle Button */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ff4757;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 100;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Halo! 👋💖</h1>
-    <p>Ada sesuatu yang mau aku sampein ke kamu...</p>
-    <button onclick="mulaiPesan()">Klik Di Sini ✨</button>
+  <!-- Musik Latar -->
+  <button class="music-btn" onclick="toggleMusic()">
+    <i class="fa-solid fa-music" id="musicIcon"></i>
+  </button>
+  <audio id="bgMusic" loop>
+    <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-sunset-688.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Card Utama -->
+  <div class="card">
+    
+    <!-- SLIDE 1: Pembuka -->
+    <div class="slide active" id="slide1">
+      <div class="gif-container">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1a3BqZXU2Z3J3Z2lsOHIydXp1a3BqZXU2Z3J3Z2lsOHIydXomZXA9djFfaW50ZXJuYWxfZ2lmX2J5X2lkJmN0PWc/c3Q22g1JC41Sm8M3bX/giphy.gif" alt="Cute Cat">
+      </div>
+      <h1>Halo Kamu! ✨</h1>
+      <p>Ada pesan rahasia yang mau aku sampein nih... Buka yuk! 💌</p>
+      <button class="btn" onclick="nextSlide(2); playMusic();">Buka Pesan ❤️</button>
+    </div>
+
+    <!-- SLIDE 2: Pesan Manis 1 -->
+    <div class="slide" id="slide2">
+      <div class="gif-container">
+        <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Cute Cat Hug">
+      </div>
+      <h2>Makasih Ya... 🌸</h2>
+      <p id="pesan1Text">Makasih udah selalu bikin hari-hariku jadi lebih berwarna dan seru! 😊</p>
+      <button class="btn" onclick="nextSlide(3)">Lanjut ➡️</button>
+    </div>
+
+    <!-- SLIDE 3: Pesan Manis 2 -->
+    <div class="slide" id="slide3">
+      <div class="gif-container">
+        <img src="https://media.giphy.com/media/26hpW383vK5R3c328/giphy.gif" alt="Happy Cat">
+      </div>
+      <h2>Jujur Ya... 👉👈</h2>
+      <p id="pesan2Text">Setiap kali ngobrol atau di deket kamu, aku selalu seneng banget!</p>
+      <button class="btn" onclick="nextSlide(4)">Lanjut Lagi ➡️</button>
+    </div>
+
+    <!-- SLIDE 4: Pertanyaan Date -->
+    <div class="slide" id="slide4">
+      <div class="gif-container">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z2cGp2MmdjcXk2Ynd5M2s3bmE3Z214eXlsb2VweXlyZzA2OGJmZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LpmG35iKz95iC6Z3Xj/giphy.gif" alt="Love Proposal">
+      </div>
+      <h2>Kita Jalan Bareng Yuk? 🍿☕</h2>
+      <p>Weekend ini kamu ada waktu luang gak? Date bareng aku yuk!</p>
+      
+      <div class="btn-group">
+        <button class="btn" onclick="nextSlide(5)">Mau Banget! 🥰</button>
+        <button class="btn btn-secondary" id="btnNo" onmouseover="moveButton()" onclick="moveButton()">Gak 😜</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Form Rencana Date -->
+    <div class="slide" id="slide5">
+      <h2>Yeeey! 🎉🥳</h2>
+      <p>Atur rencana date kita yuk:</p>
+
+      <div class="input-group">
+        <label><i class="fa-solid fa-location-dot"></i> Mau Date ke Mana?</label>
+        <input type="text" id="tempatDate" placeholder="Contoh: Nonton bioskop / Cafe santai / Makan sushi 🍣">
+      </div>
+
+      <div class="input-group">
+        <label><i class="fa-solid fa-calendar-days"></i> Kapan Waktunya?</label>
+        <input type="text" id="waktuDate" placeholder="Contoh: Sabtu sore / Minggu jam 4">
+      </div>
+
+      <button class="btn" onclick="sendToWhatsApp()">Kirim Jawaban ke WA 🚀</button>
+    </div>
+
+    <!-- SLIDE 6: Akhir Penutup -->
+    <div class="slide" id="slide6">
+      <div class="gif-container">
+        <img src="https://media.giphy.com/media/Gf3AUz3eBNbTW/giphy.gif" alt="Dancing Happy">
+      </div>
+      <h2>Sampai Ketemu Nanti! ❤️</h2>
+      <p>Jawabanmu sudah terkirim ke WhatsApp. Can't wait! ✨</p>
+    </div>
+
   </div>
 
   <script>
-    // GANTI NOMOR WHATSAPP DI SINI (Format: 628xxxxxxxxxx)
-    const nomorWA = "6281296172858"; 
+    /* ============================================================
+       ⚙️ PENGATURAN KUSTOMISASI (Ganti Sesuai Keinginanmu!)
+       ============================================================ */
+    
+    // 1. Masukkan Nomor WhatsApp Kamu (Gunakan awalan 62, contoh: 6281234567890)
+    const NOMOR_WA = "628xxxxxxxxxx"; 
 
-    async function mulaiPesan() {
-      await Swal.fire({
-        title: 'Halo Kamu! 🌸',
-        text: 'Makasih ya udah luangin waktu buat buka link ini... 😊',
-        imageUrl: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1a3BqZXU2Z3J3Z2lsOHIydXp1a3BqZXU2Z3J3Z2lsOHIydXomZXA9djFfaW50ZXJuYWxfZ2lmX2J5X2lkJmN0PWc/c3Q22g1JC41Sm8M3bX/giphy.gif',
-        imageWidth: 200,
-        confirmButtonText: 'Lanjut ➡️',
-        confirmButtonColor: '#ff4b2b'
+    // 2. Ubah Kata-kata Pesan Manis Jika Ingin
+    const PESAN_1 = "Makasih ya udah selalu hadir dan bikin hari-hariku jadi jauh lebih indah! 😊💖";
+    const PESAN_2 = "Sebenernya aku udah lama pengen ngajak kamu jalan bareng berdua... 👉👈";
+
+    // 3. Link Lagu Backsound (Bisa diganti link mp3 lain)
+    const LINK_LAGU = "https://assets.mixkit.co/music/preview/mixkit-romantic-sunset-688.mp3";
+
+    /* ============================================================
+       LOGIKA PROGRAM (Jangan diubah kecuali paham kodenya)
+       ============================================================ */
+
+    document.getElementById('pesan1Text').innerText = PESAN_1;
+    document.getElementById('pesan2Text').innerText = PESAN_2;
+    document.getElementById('bgMusic').src = LINK_LAGU;
+
+    // Pindah Slide
+    function nextSlide(slideNumber) {
+      document.querySelectorAll('.slide').forEach(slide => {
+        slide.classList.remove('active');
       });
-
-      await Swal.fire({
-        title: 'Sebenernya... 👉👈',
-        text: 'Aku cuma mau bilang kalau aku seneng banget setiap ada di deket kamu 💕',
-        imageUrl: 'https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif',
-        imageWidth: 200,
-        confirmButtonText: 'Lanjut Lagi ➡️',
-        confirmButtonColor: '#ff4b2b'
-      });
-
-      await Swal.fire({
-        title: 'Jadi gini... 💌',
-        text: 'Weekend ini kamu ada acara gak? Kita jalan bareng yuk! 🍿☕',
-        imageUrl: 'https://media.giphy.com/media/26hpW383vK5R3c328/giphy.gif',
-        imageWidth: 200,
-        showCancelButton: true,
-        confirmButtonText: 'Mau Banget! 🥰',
-        cancelButtonText: 'Gak Dulu 😜',
-        confirmButtonColor: '#28a745',
-        cancelButtonColor: '#dc3545'
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          const { value: tempatDate } = await Swal.fire({
-            title: 'Yeeey! 🎉🥳',
-            text: 'Mau date di mana nih kita?',
-            input: 'text',
-            inputPlaceholder: 'Contoh: Nonton bioskop / Cafe santai / Makan sushi 🍣',
-            showCancelButton: false,
-            confirmButtonText: 'Kirim Jawaban 🚀',
-            confirmButtonColor: '#ff4b2b',
-            inputValidator: (value) => {
-              if (!value) {
-                return 'Isi dulu dong mau ke mana! 😜';
-              }
-            }
-          });
-
-          if (tempatDate) {
-            const pesanWA = encodeURIComponent(`Halo! Aku mau jalan bareng kamu. KITA DATE DI: ${tempatDate} ya! 🥰✨`);
-            window.location.href = `https://wa.me/${nomorWA}?text=${pesanWA}`;
-          }
-        } else {
-          Swal.fire({
-            title: 'Yahhh... 😿',
-            text: 'Masa gak mau sih? Yakin nih? Coba klik lagi tombol depannya! 😜',
-            icon: 'error',
-            confirmButtonColor: '#ff4b2b'
-          });
-        }
-      });
+      document.getElementById('slide' + slideNumber).classList.add('active');
     }
+
+    // Tombol "Gak" Lari saat didekati
+    function moveButton() {
+      const btnNo = document.getElementById('btnNo');
+      const card = document.querySelector('.card');
+      
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = btnNo.getBoundingClientRect();
+
+      const maxX = cardRect.width - btnRect.width - 20;
+      const maxY = cardRect.height - btnRect.height - 20;
+
+      const randomX = Math.floor(Math.random() * maxX) - (cardRect.width / 2) + (btnRect.width / 2);
+      const randomY = Math.floor(Math.random() * maxY) - (cardRect.height / 2) + (btnRect.height / 2);
+
+      btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    // Kirim Hasil ke WhatsApp
+    function sendToWhatsApp() {
+      const tempat = document.getElementById('tempatDate').value || "Terserah kamu 😊";
+      const waktu = document.getElementById('waktuDate').value || "Weekend ini";
+
+      const pesan = `Halo! Aku mau jalan bareng kamu 🥰✨\n\n📍 *Rencana Date:*\n• Tempat: ${tempat}\n• Waktu: ${waktu}\n\nSampai ketemu nanti ya! ❤️`;
+      const url = `https://wa.me/${NOMOR_WA}?text=${encodeURIComponent(pesan)}`;
+
+      window.open(url, '_blank');
+      nextSlide(6);
+    }
+
+    // Musik Toggle
+    const bgMusic = document.getElementById('bgMusic');
+    const musicIcon = document.getElementById('musicIcon');
+    let isPlaying = false;
+
+    function playMusic() {
+      if(!isPlaying) {
+        bgMusic.play().then(() => {
+          isPlaying = true;
+          musicIcon.classList.remove('fa-music');
+          musicIcon.classList.add('fa-pause');
+        }).catch(e => console.log("Audio play blocked by browser"));
+      }
+    }
+
+    function toggleMusic() {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicIcon.classList.remove('fa-pause');
+        musicIcon.classList.add('fa-music');
+        isPlaying = false;
+      } else {
+        bgMusic.play();
+        musicIcon.classList.remove('fa-music');
+        musicIcon.classList.add('fa-pause');
+        isPlaying = true;
+      }
+    }
+
+    // Floating Hearts Generation
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart-bg');
+      heart.innerHTML = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+      heart.style.fontSize = Math.random() * 15 + 10 + 'px';
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 400);
   </script>
 </body>
 </html>
+```
+
+---
+
+### Cara Mengedit File di GitHub:
+
+1. Buka kembali repository **Alienz** di GitHub Lify.
+2. Klik file **`index.html`**.
+3. Klik ikon **Pensil (Edit this file)** ✏️ di kanan atas.
+4. Hapus seluruh kode lama, lalu **Paste** kode baru di atas.
+5. Cari bagian ini di baris bawah untuk mengganti **Nomor WhatsApp & Pesan**:
+   ```javascript
+   const NOMOR_WA = "628xxxxxxxxxx"; // Ganti nomormu di sini!
+   const PESAN_1 = "Ganti pesan manis 1 di sini...";
+   const PESAN_2 = "Ganti pesan manis 2 di sini...";
+   ```
+6. Scroll ke bawah dan klik tombol hijau **Commit changes...** 💾.
+
+Tunggu sekitar 1–2 menit, lalu refresh link website `https://alienzmax.github.io/Alienz/` untuk melihat hasilnya! Ada bagian atau kata-kata lain yang ingin ditambahkan?
