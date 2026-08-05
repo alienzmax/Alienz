@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ada Pesan Buat Kamu! ❤️</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      max-width: 90%;
+      width: 350px;
+    }
+
+    h1 {
+      color: #e63946;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #4a4a4a;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #ff4b2b;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);
+      transition: transform 0.2s, background-color 0.2s;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background-color: #ff416c;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Halo! 👋💖</h1>
+    <p>Ada sesuatu yang mau aku sampein ke kamu...</p>
+    <button onclick="mulaiPesan()">Klik Di Sini ✨</button>
+  </div>
+
+  <script>
+    // GANTI NOMOR WHATSAPP DI SINI (Format: 628xxxxxxxxxx)
+    const nomorWA = "6281296172858"; 
+
+    async function mulaiPesan() {
+      await Swal.fire({
+        title: 'Halo Kamu! 🌸',
+        text: 'Makasih ya udah luangin waktu buat buka link ini... 😊',
+        imageUrl: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1a3BqZXU2Z3J3Z2lsOHIydXp1a3BqZXU2Z3J3Z2lsOHIydXomZXA9djFfaW50ZXJuYWxfZ2lmX2J5X2lkJmN0PWc/c3Q22g1JC41Sm8M3bX/giphy.gif',
+        imageWidth: 200,
+        confirmButtonText: 'Lanjut ➡️',
+        confirmButtonColor: '#ff4b2b'
+      });
+
+      await Swal.fire({
+        title: 'Sebenernya... 👉👈',
+        text: 'Aku cuma mau bilang kalau aku seneng banget setiap ada di deket kamu 💕',
+        imageUrl: 'https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif',
+        imageWidth: 200,
+        confirmButtonText: 'Lanjut Lagi ➡️',
+        confirmButtonColor: '#ff4b2b'
+      });
+
+      await Swal.fire({
+        title: 'Jadi gini... 💌',
+        text: 'Weekend ini kamu ada acara gak? Kita jalan bareng yuk! 🍿☕',
+        imageUrl: 'https://media.giphy.com/media/26hpW383vK5R3c328/giphy.gif',
+        imageWidth: 200,
+        showCancelButton: true,
+        confirmButtonText: 'Mau Banget! 🥰',
+        cancelButtonText: 'Gak Dulu 😜',
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#dc3545'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const { value: tempatDate } = await Swal.fire({
+            title: 'Yeeey! 🎉🥳',
+            text: 'Mau date di mana nih kita?',
+            input: 'text',
+            inputPlaceholder: 'Contoh: Nonton bioskop / Cafe santai / Makan sushi 🍣',
+            showCancelButton: false,
+            confirmButtonText: 'Kirim Jawaban 🚀',
+            confirmButtonColor: '#ff4b2b',
+            inputValidator: (value) => {
+              if (!value) {
+                return 'Isi dulu dong mau ke mana! 😜';
+              }
+            }
+          });
+
+          if (tempatDate) {
+            const pesanWA = encodeURIComponent(`Halo! Aku mau jalan bareng kamu. KITA DATE DI: ${tempatDate} ya! 🥰✨`);
+            window.location.href = `https://wa.me/${nomorWA}?text=${pesanWA}`;
+          }
+        } else {
+          Swal.fire({
+            title: 'Yahhh... 😿',
+            text: 'Masa gak mau sih? Yakin nih? Coba klik lagi tombol depannya! 😜',
+            icon: 'error',
+            confirmButtonColor: '#ff4b2b'
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
