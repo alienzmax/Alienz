@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kirim Pesan ke Telegram Bot 🚀</title>
+  <title>Kirim Pesan via Google Apps Script 🚀</title>
   <style>
     * {
       box-sizing: border-box;
@@ -107,9 +107,8 @@
   </div>
 
   <script>
-    // ⚙️ PENGATURAN BOT TELEGRAM (Ganti nilai variabel di bawah ini)
-    const TELEGRAM_BOT_TOKEN = "8825208996:AAEizA85TjLe5q_ka2FOg87h_se19JYv3nM"; // Contoh: "123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ" 🔑
-    const TELEGRAM_CHAT_ID = "558806686";     // Contoh: "123456789" 🆔
+    // ⚙️ Ganti dengan Web App URL Google Apps Script Anda
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxjP5vLD7sGiJ5SPHTHnomfvb7KvGua9gfPGwkGwirs0IhyfyOfXeIhzmI4F1xdnmyr/exec";
 
     document.getElementById('telegramForm').addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -123,38 +122,34 @@
       statusDiv.className = '';
       statusDiv.style.backgroundColor = '#e2e3e5';
       statusDiv.style.color = '#383d41';
-      statusDiv.innerText = 'Sedang mengirim pesan... ⏳';
+      statusDiv.innerText = 'Meneruskan pesan ke Google Apps Script... ⏳';
       btnSubmit.disabled = true;
 
-      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-
       try {
-        const response = await fetch(url, {
+        const response = await fetch(GAS_API_URL, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'text/plain;charset=utf-8' // Menggunakan text/plain untuk menghindari batasan preflight CORS dari Google
           },
           body: JSON.stringify({
-            chat_id: TELEGRAM_CHAT_ID,
-            text: message,
-            parse_mode: 'HTML'
+            message: message
           })
         });
 
         const data = await response.json();
 
-        if (data.ok) {
+        if (data.status === 'success') {
           statusDiv.className = 'success';
-          statusDiv.innerText = 'Pesan berhasil terkirim ke Telegram! 🎉';
-          document.getElementById('message').value = ''; // Kosongkan kolom teks setelah terkirim
+          statusDiv.innerText = 'Pesan berhasil terkirim ke Telegram via Apps Script! 🎉';
+          document.getElementById('message').value = ''; // Kosongkan form
         } else {
           statusDiv.className = 'error';
-          statusDiv.innerText = 'Gagal: ' + (data.description || 'Terjadi kesalahan') + ' ❌';
+          statusDiv.innerText = 'Gagal: ' + (data.message || 'Terjadi kesalahan') + ' ❌';
         }
       } catch (error) {
         console.error('Error:', error);
         statusDiv.className = 'error';
-        statusDiv.innerText = 'Terjadi kesalahan jaringan atau CORS! ⚠️';
+        statusDiv.innerText = 'Terjadi kesalahan koneksi! ⚠️';
       } finally {
         btnSubmit.disabled = false;
       }
