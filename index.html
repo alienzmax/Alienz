@@ -1195,7 +1195,7 @@
         showToast("Mengirim konfirmasi... ⏳");
 
         try {
-          if (CONFIG.apiUrl && CONFIG.apiUrl !== "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
+          if (CONFIG.apiUrl && CONFIG.apiUrl !== "") {
             await fetch(CONFIG.apiUrl, {
               method: "POST",
               mode: "no-cors", // Google Apps Script Web App standard mode
@@ -1241,7 +1241,7 @@
         showToast("Mengirim tanggapanmu... ⏳");
 
         try {
-          if (CONFIG.apiUrl && CONFIG.apiUrl !== "https://script.google.com/macros/s/AKfycbxjP5vLD7sGiJ5SPHTHnomfvb7KvGua9gfPGwkGwirs0IhyfyOfXeIhzmI4F1xdnmyr/exec") {
+          if (CONFIG.apiUrl && CONFIG.apiUrl !== "") {
             await fetch(CONFIG.apiUrl, {
               method: "POST",
               mode: "no-cors",
