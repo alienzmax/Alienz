@@ -1,160 +1,1287 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kirim Pesan via Google Apps Script 🚀</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      background-color: #f4f7f6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    .container {
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 420px;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #0088cc;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      font-size: 14px;
-      color: #333;
-    }
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      resize: vertical;
-      height: 120px;
-      outline: none;
-    }
-    textarea:focus {
-      border-color: #0088cc;
-      box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.2);
-    }
-    button {
-      width: 100%;
-      background-color: #0088cc;
-      color: white;
-      border: none;
-      padding: 12px;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    button:hover {
-      background-color: #006699;
-    }
-    #status {
-      margin-top: 15px;
-      padding: 10px;
-      border-radius: 6px;
-      font-size: 14px;
-      text-align: center;
-      display: none;
-    }
-    .success {
-      background-color: #d4edda;
-      color: #155724;
-    }
-    .error {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    <h2>Kirim Pesan ke Telegram XXX🤖</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Undangan Spesial ✨</title>
     
-    <form id="telegramForm">
-      <div class="form-group">
-        <label for="message">Tulis Pesan Anda 💬</label>
-        <textarea id="message" placeholder="Tuliskan pesan di sini..." required></textarea>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <style>
+      /* ==========================================================================
+         LUXURY / PRESTIGE COLOR PALETTE & STYLES
+         Navy (#001B48), Gold (#C1A35F), White (#FFFFFF), Silver (#E5E7EB)
+         ========================================================================== */
+      :root {
+        --color-bg-white: #FFFFFF;
+        --color-navy: #001B48;
+        --color-navy-light: #0A2863;
+        --color-gold: #C1A35F;
+        --color-gold-light: #F4E8C1;
+        --color-silver: #E5E7EB;
+        --color-silver-dark: #9CA3AF;
+      }
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #FFFFFF;
+        color: var(--color-navy);
+        overflow-x: hidden;
+      }
+
+      .font-serif-display {
+        font-family: Georgia, 'Playfair Display', serif;
+      }
+
+      /* Subtle Diagonal Background Pattern */
+      .bg-diagonal-pattern {
+        background-image: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 40px,
+          rgba(193, 163, 95, 0.08) 40px,
+          rgba(193, 163, 95, 0.08) 41px
+        );
+      }
+
+      /* Floating Ambient Glows */
+      .glow-gold {
+        background: radial-gradient(circle, rgba(193, 163, 95, 0.18) 0%, rgba(255,255,255,0) 70%);
+      }
+      .glow-navy {
+        background: radial-gradient(circle, rgba(0, 27, 72, 0.1) 0%, rgba(255,255,255,0) 70%);
+      }
+
+      /* Premium Card Glassmorphism */
+      .card-premium {
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(193, 163, 95, 0.35);
+        box-shadow: 0 30px 60px -15px rgba(0, 27, 72, 0.12), 0 0 25px 0 rgba(193, 163, 95, 0.12);
+      }
+
+      /* Gold Accent Line */
+      .gold-divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, #C1A35F 50%, transparent 100%);
+      }
+
+      /* Custom Slide Animations */
+      .slide-enter {
+        animation: slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      .slide-exit {
+        animation: slideOutUp 0.4s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+      }
+
+      @keyframes slideInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(24px) scale(0.98);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes slideOutUp {
+        0% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-20px) scale(0.96);
+        }
+      }
+
+      /* Crown Pulse Animation */
+      @keyframes floatCrown {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-6px) rotate(2deg); }
+      }
+      .animate-crown {
+        animation: floatCrown 3s ease-in-out infinite;
+      }
+
+      /* Luxury Button Styling */
+      .btn-gold {
+        background: #001B48;
+        color: #FFFFFF;
+        border: 1px solid #C1A35F;
+        letter-spacing: 0.08em;
+        box-shadow: 0 6px 20px rgba(0, 27, 72, 0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .btn-gold:hover {
+        background: #0A2863;
+        border-color: #D6BA7A;
+        box-shadow: 0 8px 25px rgba(193, 163, 95, 0.35);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: #FFFFFF;
+        color: #001B48;
+        border: 1px solid rgba(0, 27, 72, 0.2);
+        letter-spacing: 0.06em;
+        transition: all 0.25s ease;
+      }
+      .btn-secondary:hover {
+        border-color: #C1A35F;
+        background: rgba(193, 163, 95, 0.05);
+        color: #001B48;
+      }
+
+      /* Custom Checkbox/Radio Cards */
+      .option-card {
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0, 27, 72, 0.12);
+        background: #FFFFFF;
+      }
+      .option-card:hover {
+        border-color: #C1A35F;
+        background-color: rgba(193, 163, 95, 0.04);
+        transform: translateY(-2px);
+      }
+      .option-card.selected {
+        border-color: #C1A35F;
+        background-color: rgba(193, 163, 95, 0.08);
+        box-shadow: 0 0 0 2px rgba(193, 163, 95, 0.25);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-diagonal-pattern relative flex items-center justify-center p-4 md:p-8">
+
+    <!-- Ambient Glowing Background Shapes -->
+    <div class="fixed top-[-80px] left-[-80px] w-[500px] h-[500px] glow-navy rounded-full pointer-events-none -z-10 blur-[120px] opacity-80"></div>
+    <div class="fixed bottom-[-80px] right-[-80px] w-[450px] h-[450px] glow-gold rounded-full pointer-events-none -z-10 blur-[100px] opacity-70"></div>
+
+    <!-- Decorative Light Streaks -->
+    <div class="fixed top-1/4 -left-20 w-[450px] h-[1px] bg-gradient-to-r from-transparent via-[#C1A35F]/30 to-transparent -rotate-[35deg] pointer-events-none -z-10"></div>
+    <div class="fixed bottom-1/4 -right-20 w-[450px] h-[1px] bg-gradient-to-r from-transparent via-[#C1A35F]/30 to-transparent -rotate-[35deg] pointer-events-none -z-10"></div>
+
+    <!-- Vertical Rail Text (Prestige Theme Feature) -->
+    <div class="hidden lg:flex fixed left-10 top-1/2 -translate-y-1/2 items-center z-10 pointer-events-none select-none">
+      <span class="text-[10px] tracking-[0.5em] uppercase font-bold text-[#001B48]/40" style="writing-mode: vertical-rl; transform: rotate(180deg);">MEMORABLE MOMENT • MMXXIV</span>
+      <div class="w-[1px] h-32 bg-[#C1A35F]/40 ml-3"></div>
+    </div>
+
+    <div class="hidden lg:flex fixed right-10 top-1/2 -translate-y-1/2 items-center z-10 pointer-events-none select-none">
+      <div class="w-[1px] h-32 bg-[#C1A35F]/40 mr-3"></div>
+      <span class="text-[10px] tracking-[0.5em] uppercase font-bold text-[#001B48]/40" style="writing-mode: vertical-rl;">REFINED & EXCLUSIVE</span>
+    </div>
+
+    <!-- Main Container Card -->
+    <main class="w-full max-w-xl min-h-[580px] card-premium rounded-3xl p-6 sm:p-10 relative overflow-hidden flex flex-col justify-between" id="appCard">
+      
+      <!-- Top Decorative Crown Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-[#C1A35F]/20 mb-6">
+        <div class="flex items-center gap-2.5">
+          <!-- Crown Icon -->
+          <div class="w-9 h-9 rounded-full bg-[#001B48] flex items-center justify-center border border-[#C1A35F] shadow-sm animate-crown">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C1A35F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.3 8.87a.5.5 0 0 0 .385.28l6.195.901a.5.5 0 0 1 .277.853l-4.482 4.368a.5.5 0 0 0-.144.443l1.058 6.17a.5.5 0 0 1-.725.527L12 19.503l-5.864 3.082a.5.5 0 0 1-.725-.527l1.058-6.17a.5.5 0 0 0-.144-.443L1.843 10.904a.5.5 0 0 1 .277-.853l6.195-.901a.5.5 0 0 0 .385-.28z"/>
+            </svg>
+          </div>
+          <span class="text-xs font-bold tracking-[0.2em] uppercase text-[#001B48]">Exclusive Invitation</span>
+        </div>
+        
+        <!-- Step Progress Dots -->
+        <div class="flex items-center gap-1.5" id="stepProgressDots">
+          <!-- Dots will be rendered dynamically -->
+        </div>
       </div>
 
-      <button type="submit" id="btnSubmit">Kirim Pesan 📤</button>
-    </form>
+      <!-- Main Dynamic Content Body -->
+      <div id="contentContainer" class="flex-1 flex flex-col justify-center my-auto transition-all duration-300">
+        <!-- Content injected dynamically by JS -->
+      </div>
 
-    <div id="status"></div>
-  </div>
+      <!-- Footer Note -->
+      <div class="pt-6 border-t border-[#C1A35F]/20 mt-6 flex items-center justify-between text-xs text-slate-400">
+        <span id="footerBrand" class="tracking-widest uppercase text-[10px] text-[#001B48]/50 font-semibold">Personal Note • Confidential</span>
+        <span id="footerPageNum" class="font-bold text-[#C1A35F]">1 / 15</span>
+      </div>
+    </main>
 
-  <script>
-    // ⚙️ Ganti dengan Web App URL Google Apps Script Anda
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxjP5vLD7sGiJ5SPHTHnomfvb7KvGua9gfPGwkGwirs0IhyfyOfXeIhzmI4F1xdnmyr/exec";
+    <!-- Notification / Validation Toast Alert -->
+    <div id="toastAlert" class="fixed top-6 left-1/2 -translate-x-1/2 bg-[#001B48] text-[#F4E8C1] border border-[#C1A35F]/50 px-6 py-3 rounded-2xl shadow-2xl text-sm font-medium flex items-center gap-3 opacity-0 pointer-events-none transition-all duration-300 -translate-y-4 z-50">
+      <i data-lucide="alert-circle" class="w-5 h-5 text-[#C1A35F]"></i>
+      <span id="toastMessage">Mohon lengkapi pilihan terlebih dahulu.</span>
+    </div>
 
-    document.getElementById('telegramForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+    <!-- Modal Popup PP (Shown after 10th NO click) -->
+    <div id="popupModalPP" class="fixed inset-0 bg-[#001B48]/60 backdrop-blur-md flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-all duration-300">
+      <div class="bg-white rounded-3xl border border-[#C1A35F]/50 shadow-2xl max-w-md w-full p-6 sm:p-8 text-center space-y-6 transform scale-95 transition-all duration-300" id="popupCard">
+        <div class="w-16 h-16 rounded-full bg-[#FDFBF7] border border-[#C1A35F] flex items-center justify-center mx-auto text-2xl">
+          🙈
+        </div>
+        <div class="space-y-2">
+          <h3 id="popupTitle" class="text-xl font-bold text-[#001B48] font-serif-display"></h3>
+          <p id="popupDesc" class="text-sm text-slate-600 leading-relaxed"></p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+          <button id="btnPopupBack" class="flex-1 py-3 px-4 rounded-xl btn-secondary text-sm font-semibold">
+            Kembali Dulu
+          </button>
+          <button id="btnPopupNextTime" class="flex-1 py-3 px-4 rounded-xl btn-gold text-sm font-semibold">
+            Lain Kali Saja
+          </button>
+        </div>
+      </div>
+    </div>
 
-      const message = document.getElementById('message').value.trim();
-      const statusDiv = document.getElementById('status');
-      const btnSubmit = document.getElementById('btnSubmit');
+    <!-- ==========================================================================
+         APPLICATION JAVASCRIPT ARCHITECTURE
+         ========================================================================== -->
+    <script>
+      /* ==========================================================================
+         1. CONFIG
+         Centralized config containing text, questions, choices, locations & API setup
+         ========================================================================== */
+      const CONFIG = {
+        title: "A Special Invitation",
+        subtitle: "Ada sesuatu yang ingin aku sampaikan padamu...",
 
-      // Tampilkan indikator loading
-      statusDiv.style.display = 'block';
-      statusDiv.className = '';
-      statusDiv.style.backgroundColor = '#e2e3e5';
-      statusDiv.style.color = '#383d41';
-      statusDiv.innerText = 'Meneruskan pesan ke Google Apps Script... ⏳';
-      btnSubmit.disabled = true;
+        // Luxury / Prestige Reference Theme Colors
+        colors: {
+          white: "#FFFFFF",
+          navy: "#001B48",
+          gold: "#C1A35F",
+          silver: "#E5E7EB"
+        },
+        animationDuration: 500,
 
-      try {
-        const response = await fetch(GAS_API_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8' // Menggunakan text/plain untuk menghindari batasan preflight CORS dari Google
-          },
-          body: JSON.stringify({
-            message: message
-          })
-        });
+        // Slides Content
+        perkenalan: {
+          title: "Halo, Kamuu ✨",
+          subtitle: "Pesan Spesial Untukmu",
+          description: "Terima kasih banyak sudah meluangkan waktu sejenak untuk membuka pesan ini. Aku sengaja membuat tampilan ini khusus hanya untukmu."
+        },
+        kalimatA: {
+          title: "Setiap Momen Bersamamu",
+          subtitle: "Sederhana Tapi Berkesan",
+          description: "Mungkin kamu tidak begitu sadar, tapi setiap kali kita mengobrol atau sekadar cerita ringan, hariku selalu terasa jauh lebih hangat dan menyenangkan."
+        },
+        kalimatB: {
+          title: "Sesuatu yang Berbeda",
+          subtitle: "Rasa Nyaman",
+          description: "Ada ketenangan tersendiri saat berbincang denganmu. Sebuah perasaan nyaman yang jujur belum pernah aku rasakan sebelumnya."
+        },
+        kalimatC: {
+          title: "Sebuah Harapan",
+          subtitle: "Mengenal Lebih Dekat",
+          description: "Aku cuma ingin kita punya waktu khusus untuk jalan santai dan mengobrol tanpa terburu-buru oleh kesibukan masing-masing."
+        },
+        kalimatD: {
+          title: "Dua Pertanyaan Singkat",
+          subtitle: "Kuis Kecil",
+          description: "Sebelum aku menyampaikan maksud utamaku, bolehkah aku mengajukan dua pertanyaan kuis singkat dulu untukmu?"
+        },
 
-        const data = await response.json();
+        // Quiz 1
+        quiz1: {
+          question: "Apa hal pertama yang terlintas di pikiranmu saat mendengar namaku?",
+          choices: [
+            { id: "A", label: "A. Teman seru buat cerita dan tukar pikiran" },
+            { id: "B", label: "B. Seseorang yang bikin penasaran pengen kenal lebih jauh" },
+            { id: "C", label: "C. Teman jalan dan nyobain tempat-tempat baru" },
+            { id: "D", label: "D. Seseorang yang perhatian dan bikin nyaman" },
+            { id: "E", label: "E. Kenapa tiba-tiba bikin kuis gini ya? Haha" }
+          ],
+          answers: {
+            A: "Aku seneng banget! Menjadi teman ngobrol yang nyaman buatmu itu berharga banget buat aku. ✨",
+            B: "Wah, misterius ya? Tenang aja, makin kenal pasti makin seru kok! 😉",
+            C: "Pas banget! Aku punya daftar tempat seru yang wajib banget kita coba bareng. ☕",
+            D: "Mendengar itu jujur bikin hatiku adem banget. Terima kasih ya... ❤️",
+            E: "Hehe, biar spesial aja dong! Biar beda dari cara ajakan biasa. 🙈"
+          }
+        },
 
-        if (data.status === 'success') {
-          statusDiv.className = 'success';
-          statusDiv.innerText = 'Pesan berhasil terkirim ke Telegram via Apps Script! 🎉';
-          document.getElementById('message').value = ''; // Kosongkan form
-        } else {
-          statusDiv.className = 'error';
-          statusDiv.innerText = 'Gagal: ' + (data.message || 'Terjadi kesalahan') + ' ❌';
+        // Quiz 2
+        quiz2: {
+          question: "Bagaimana suasana pertemuan ideal yang paling kamu sukai?",
+          choices: [
+            { id: "A", label: "A. Ngopi santai di tempat estetik sambil ngobrol dari hati ke hati" },
+            { id: "B", label: "B. Makan malam romantis dengan suasana yang tenang dan hangat" },
+            { id: "C", label: "C. Nonton bioskop atau keliling galeri seni bareng" },
+            { id: "D", label: "D. Berburu kuliner lezat yang lagi hits" },
+            { id: "E", label: "E. Bebas aja, yang penting obrolan dan kebersamaannya seru" }
+          ],
+          answers: {
+            A: "Suasana coffee shop yang hangat emang terbaik buat ngobrol santai! ☕✨",
+            B: "Makan malam tenang bakal jadi momen istimewa yang berkesan banget! 🍽️✨",
+            C: "Nonton atau jalan di galeri seni pasti seru dan berkesan! 🎨🎬",
+            D: "Siap! Aku bakal carikan tempat kuliner paling hits & enak buat kita explore! 🍕🍩",
+            E: "Setuju banget! Yang paling utama emang kebersamaan dan obrolannya. 😊"
+          }
+        },
+
+        // Slide 10
+        kalimatE: {
+          title: "Nah, Sekarang Maksud Utamaku...",
+          subtitle: "Pertanyaan Penting",
+          description: "Karena kita sudah makin paham selera satu sama lain, ada satu hal spesial yang ingin aku tanyakan langsung padamu..."
+        },
+
+        // Proposal
+        proposal: {
+          question: "Maukah Kamu Jalan Bareng Aku?",
+          subtitle: "Tanpa paksaan kok, tapi aku bakal seneng banget kalau kamu bersedia! 😊",
+          yesBtn: "Mau Banget! ✨",
+          noBtn: "Nggak Ah 🙈"
+        },
+
+        // 10 NO Button Responses
+        noResponses: [
+          "Ehh, yakin nih mau menolak? 🥺",
+          "Coba pikir-pikir lagi dehh... 👉👈",
+          "Ayo dongg, cuma jalan santai kok! ☕",
+          "Yakin nggak mau nyobain tempat seru? 🍕",
+          "Masa ditekan terus tombol 'Nggak'-nya? 😂",
+          "Aku janji bakal bikin harimu menyenangkan! ✨",
+          "Pliss... Sekali ini ajaa! 🥺❤️",
+          "Tombol ini makin lama makin kecil lhoo... 🔍",
+          "Hayo Loo... Udah mau abis nih kesempatan nolaknya! 😜",
+          "Yahh, tombol 'Nggak'-nya udah pasrah nih! Hahaha 🙈"
+        ],
+
+        // Popup Modal PP
+        popupPP: {
+          title: "Gigih Banget Nolaknya! 😂",
+          description: "Kamu udah klik tombol 'Nggak' 10 kali lho! Kamu beneran yakin atau cuma mau ngetes kegigihanku aja nih?",
+          btnBack: "Kembali Dulu deh 🔄",
+          btnNextTime: "Lain Kali Saja 🙏"
+        },
+
+        // Exit Screen ZZ
+        textZZ: {
+          title: "Terima Kasih Banyak Ya ✨",
+          description: "Nggak apa-apa kok! Terima kasih sudah meluangkan waktu dan membaca pesan ini sampai selesai. Semoga harimu selalu penuh kebahagiaan! 😊",
+          btnEnd: "Selesai ✨"
+        },
+
+        // Locations Selection (A to F)
+        locations: [
+          { id: "A", title: "Cozy Aesthetic Cafe ☕", desc: "Ngopi santai di tempat estetik dengan musik syahdu & obrolan hangat" },
+          { id: "B", title: "Fine Dinner & Soft Music 🍽️", desc: "Suasana makan malam istimewa yang tenang dan hangat" },
+          { id: "C", title: "Cinema & Movie Date 🎬", desc: "Nonton film seru pilihan favoritmu di bioskop" },
+          { id: "D", title: "Culinary & Street Food Tour 🍢", desc: "Keliling nyobain kuliner paling hits & enak" },
+          { id: "E", title: "Art Gallery & Park Walk 🎨", desc: "Jalan santai menikmati seni dan pemandangan segar" },
+          { id: "F", title: "Surprise Location! 🎁", desc: "Biarkan aku yang menyiapkan tempat kejutan terbaik buat kamu" }
+        ],
+
+        // Google Apps Script WebApp Backend URL
+        apiUrl: "https://script.google.com/macros/s/AKfycbxjP5vLD7sGiJ5SPHTHnomfvb7KvGua9gfPGwkGwirs0IhyfyOfXeIhzmI4F1xdnmyr/exec",
+
+        // Success State
+        success: {
+          title: "Yaaay! Tawaran Diterima! 🎉❤️",
+          description: "Terima kasih yaa! Detail ajakan bertemu kita sudah tersimpan rapi. Sampai jumpa di hari spesial kita nanti! ✨"
         }
-      } catch (error) {
-        console.error('Error:', error);
-        statusDiv.className = 'error';
-        statusDiv.innerText = 'Terjadi kesalahan koneksi! ⚠️';
-      } finally {
-        btnSubmit.disabled = false;
-      }
-    });
-  </script>
+      };
 
-</body>
+      /* ==========================================================================
+         2. STATE
+         Application reactive single-source state
+         ========================================================================== */
+      const STATE = {
+        currentStep: 0, // 0: Loading, 1: Intro, 2: KalimatA, 3: KalimatB, 4: KalimatC, 5: KalimatD, 6: Quiz1, 7: Quiz1Ans, 8: Quiz2, 9: Quiz2Ans, 10: KalimatE, 11: Proposal, 12: DatePicker, 13: TimePicker, 14: Location, 15: Success
+        totalSteps: 15,
+        quiz1Choice: "",
+        quiz1Text: "",
+        quiz2Choice: "",
+        quiz2Text: "",
+        noClickCount: 0,
+        selectedDate: "",
+        selectedTime: "",
+        selectedLocationChoice: "",
+        selectedLocationText: "",
+        userNote: "",
+        noSubmitted: false,
+        isSubmitting: false
+      };
+
+      /* ==========================================================================
+         3. UTILITIES
+         Helper functions
+         ========================================================================== */
+      function formatDate(dateString) {
+        if (!dateString) return "-";
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('id-ID', options);
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById('toastAlert');
+        const toastMsg = document.getElementById('toastMessage');
+        toastMsg.textContent = message;
+        toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+        toast.classList.add('opacity-100', 'translate-y-0');
+
+        setTimeout(() => {
+          toast.classList.remove('opacity-100', 'translate-y-0');
+          toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+        }, 3000);
+      }
+
+      function triggerConfetti() {
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 120,
+            spread: 80,
+            origin: { y: 0.6 },
+            colors: ['#C1A35F', '#001B48', '#F4E8C1', '#FFFFFF', '#E5E7EB']
+          });
+        }
+      }
+
+      /* ==========================================================================
+         4. UI & SLIDES RENDERING
+         Pure functions generating step DOM templates
+         ========================================================================== */
+      function renderStepContent(step) {
+        const container = document.getElementById('contentContainer');
+        container.innerHTML = '';
+
+        let html = '';
+
+        switch(step) {
+          case 0: // LOADING SCREEN
+            html = `
+              <div class="text-center py-12 space-y-6 slide-enter">
+                <div class="w-20 h-20 mx-auto rounded-3xl bg-[#001B48] border-2 border-[#C1A35F] flex items-center justify-center shadow-2xl animate-crown">
+                  <i data-lucide="crown" class="w-10 h-10 text-[#C1A35F]"></i>
+                </div>
+                <div class="space-y-2">
+                  <h2 class="text-2xl font-bold font-serif-display text-[#001B48]">${CONFIG.title}</h2>
+                  <p class="text-xs text-[#C1A35F] font-semibold uppercase tracking-widest">Preparing something special...</p>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-48 h-2 bg-slate-100 rounded-full mx-auto overflow-hidden border border-[#C1A35F]/30">
+                  <div id="loadingBar" class="h-full bg-gradient-to-r from-[#001B48] via-[#C1A35F] to-[#F4E8C1] w-0 transition-all duration-1000 ease-out"></div>
+                </div>
+              </div>
+            `;
+            break;
+
+          case 1: // PERKENALAN
+            html = `
+              <div class="space-y-6 text-center slide-enter">
+                <span class="inline-block py-1 px-4 rounded-full bg-[#FDFBF7] border border-[#C1A35F]/40 text-[#C1A35F] text-xs font-semibold uppercase tracking-wider">${CONFIG.perkenalan.subtitle}</span>
+                <h2 class="text-3xl font-extrabold font-serif-display text-[#001B48] leading-tight">${CONFIG.perkenalan.title}</h2>
+                <div class="gold-divider w-24 mx-auto"></div>
+                <p class="text-slate-600 leading-relaxed text-base">${CONFIG.perkenalan.description}</p>
+                <div class="pt-4">
+                  <button onclick="nextStep()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2">
+                    Lanjutkan <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+            break;
+
+          case 2: // KALIMAT A
+            html = `
+              <div class="space-y-6 text-center slide-enter">
+                <span class="inline-block py-1 px-4 rounded-full bg-[#FDFBF7] border border-[#C1A35F]/40 text-[#C1A35F] text-xs font-semibold uppercase tracking-wider">${CONFIG.kalimatA.subtitle}</span>
+                <h2 class="text-3xl font-extrabold font-serif-display text-[#001B48] leading-tight">${CONFIG.kalimatA.title}</h2>
+                <div class="gold-divider w-24 mx-auto"></div>
+                <p class="text-slate-600 leading-relaxed text-base">${CONFIG.kalimatA.description}</p>
+                <div class="pt-4">
+                  <button onclick="nextStep()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2">
+                    Lanjut <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+            break;
+
+          case 3: // KALIMAT B
+            html = `
+              <div class="space-y-6 text-center slide-enter">
+                <span class="inline-block py-1 px-4 rounded-full bg-[#FDFBF7] border border-[#C1A35F]/40 text-[#C1A35F] text-xs font-semibold uppercase tracking-wider">${CONFIG.kalimatB.subtitle}</span>
+                <h2 class="text-3xl font-extrabold font-serif-display text-[#001B48] leading-tight">${CONFIG.kalimatB.title}</h2>
+                <div class="gold-divider w-24 mx-auto"></div>
+                <p class="text-slate-600 leading-relaxed text-base">${CONFIG.kalimatB.description}</p>
+                <div class="pt-4">
+                  <button onclick="nextStep()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2">
+                    Lanjut <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+            break;
+
+          case 4: // KALIMAT C
+            html = `
+              <div class="space-y-6 text-center slide-enter">
+                <span class="inline-block py-1 px-4 rounded-full bg-[#FDFBF7] border border-[#C1A35F]/40 text-[#C1A35F] text-xs font-semibold uppercase tracking-wider">${CONFIG.kalimatC.subtitle}</span>
+                <h2 class="text-3xl font-extrabold font-serif-display text-[#001B48] leading-tight">${CONFIG.kalimatC.title}</h2>
+                <div class="gold-divider w-24 mx-auto"></div>
+                <p class="text-slate-600 leading-relaxed text-base">${CONFIG.kalimatC.description}</p>
+                <div class="pt-4">
+                  <button onclick="nextStep()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2">
+                    Lanjut <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+            break;
+
+          case 5: // KALIMAT D
+            html = `
+              <div class="space-y-6 text-center slide-enter">
+                <span class="inline-block py-1 px-4 rounded-full bg-[#FDFBF7] border border-[#C1A35F]/40 text-[#C1A35F] text-xs font-semibold uppercase tracking-wider">${CONFIG.kalimatD.subtitle}</span>
+                <h2 class="text-3xl font-extrabold font-serif-display text-[#001B48] leading-tight">${CONFIG.kalimatD.title}</h2>
+                <div class="gold-divider w-24 mx-auto"></div>
+                <p class="text-slate-600 leading-relaxed text-base">${CONFIG.kalimatD.description}</p>
+                <div class="pt-4">
+                  <button onclick="nextStep()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2">
+                    Mulai Kuis <i data-lucide="sparkles" class="w-4 h-4 text-[#C1A35F]"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+            break;
+
+          case 6: // QUIZ 1
+            html = `
+              <div class="space-y-5 slide-enter">
+                <div class="text-center space-y-1">
+                  <span class="text-xs font-bold text-[#C1A35F] uppercase tracking-widest">Pertanyaan 1 dari 2</span>
+                  <h3 class="text-lg font-bold text-[#001B48] leading-snug">${CONFIG.quiz1.question}</h3>
+                </div>
+                <div class="space-y-2.5">
+                  ${CONFIG.quiz1.choices.map(c => `
+                    <div onclick="selectQuiz1('${c.id}', '${c.label.replace(/'/g, "\\'")}')" 
+                         class="option-card p-3.5 rounded-xl cursor-pointer flex items-center justify-between text-sm ${STATE.quiz1Choice === c.id ? 'selected' : ''}">
+                      <span class="text-[#001B48] font-medium">${c.label}</span>
+                      <div class="w-5 h-5 rounded-full border border-[#C1A35F] flex items-center justify-center text-xs font-bold ${STATE.quiz1Choice === c.id ? 'bg-[#C1A35F] text-white' : 'text-transparent'}">
+                        ✓
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+                <button onclick="submitQuiz1()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold mt-2">
+                  Lihat Jawaban <i data-lucide="arrow-right" class="w-4 h-4 inline ml-1"></i>
+                </button>
+              </div>
+            `;
+            break;
+
+          case 7: // QUIZ 1 ANSWER
+            const ans1Text = CONFIG.quiz1.answers[STATE.quiz1Choice] || "Pilihan yang sangat menarik! ✨";
+            html = `
+              <div class="space-y-6 text-center slide-enter">
+                <div class="w-14 h-14 rounded-full bg-[#FDFBF7] border border-[#C1A35F] flex items-center justify-center mx-auto text-[#C1A35F]">
+                  <i data-lucide="heart" class="w-7 h-7 fill-[#C1A35F] text-[#C1A35F]"></i>
+                </div>
+                <div class="space-y-2">
+                  <span class="text-xs font-semibold uppercase text-[#C1A35F] tracking-wider">Respon Kuis 1</span>
+                  <h3 class="text-xl font-bold font-serif-display text-[#001B48]">Pilihanmu: ${STATE.quiz1Choice}</h3>
+                </div>
+                <div class="p-4 bg-[#FDFBF7] rounded-2xl border border-[#C1A35F]/30 text-[#001B48] text-sm leading-relaxed">
+                  "${ans1Text}"
+                </div>
+                <button onclick="nextStep()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold">
+                  Lanjut ke Kuis 2 <i data-lucide="arrow-right" class="w-4 h-4 inline ml-1"></i>
+                </button>
+              </div>
+            `;
+            break;
+
+          case 8: // QUIZ 2
+            html = `
+              <div class="space-y-5 slide-enter">
+                <div class="text-center space-y-1">
+                  <span class="text-xs font-bold text-[#C1A35F] uppercase tracking-widest">Pertanyaan 2 dari 2</span>
+                  <h3 class="text-lg font-bold text-[#001B48] leading-snug">${CONFIG.quiz2.question}</h3>
+                </div>
+                <div class="space-y-2.5">
+                  ${CONFIG.quiz2.choices.map(c => `
+                    <div onclick="selectQuiz2('${c.id}', '${c.label.replace(/'/g, "\\'")}')" 
+                         class="option-card p-3.5 rounded-xl cursor-pointer flex items-center justify-between text-sm ${STATE.quiz2Choice === c.id ? 'selected' : ''}">
+                      <span class="text-[#001B48] font-medium">${c.label}</span>
+                      <div class="w-5 h-5 rounded-full border border-[#C1A35F] flex items-center justify-center text-xs font-bold ${STATE.quiz2Choice === c.id ? 'bg-[#C1A35F] text-white' : 'text-transparent'}">
+                        ✓
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+                <button onclick="submitQuiz2()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold mt-2">
+                  Lihat Jawaban <i data-lucide="arrow-right" class="w-4 h-4 inline ml-1"></i>
+                </button>
+              </div>
+            `;
+            break;
+
+          case 9: // QUIZ 2 ANSWER
+            const ans2Text = CONFIG.quiz2.answers[STATE.quiz2Choice] || "Pilihan yang menyenangkan! ✨";
+            html = `
+              <div class="space-y-6 text-center slide-enter">
+                <div class="w-14 h-14 rounded-full bg-[#FDFBF7] border border-[#C1A35F] flex items-center justify-center mx-auto text-[#C1A35F]">
+                  <i data-lucide="coffee" class="w-7 h-7 text-[#C1A35F]"></i>
+                </div>
+                <div class="space-y-2">
+                  <span class="text-xs font-semibold uppercase text-[#C1A35F] tracking-wider">Respon Kuis 2</span>
+                  <h3 class="text-xl font-bold font-serif-display text-[#001B48]">Pilihanmu: ${STATE.quiz2Choice}</h3>
+                </div>
+                <div class="p-4 bg-[#FDFBF7] rounded-2xl border border-[#C1A35F]/30 text-[#001B48] text-sm leading-relaxed">
+                  "${ans2Text}"
+                </div>
+                <button onclick="nextStep()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold">
+                  Lanjut ke Maksud Utama <i data-lucide="arrow-right" class="w-4 h-4 inline ml-1"></i>
+                </button>
+              </div>
+            `;
+            break;
+
+          case 10: // KALIMAT E
+            html = `
+              <div class="space-y-6 text-center slide-enter">
+                <span class="inline-block py-1 px-4 rounded-full bg-[#FDFBF7] border border-[#C1A35F]/40 text-[#C1A35F] text-xs font-semibold uppercase tracking-wider">${CONFIG.kalimatE.subtitle}</span>
+                <h2 class="text-3xl font-extrabold font-serif-display text-[#001B48] leading-tight">${CONFIG.kalimatE.title}</h2>
+                <div class="gold-divider w-24 mx-auto"></div>
+                <p class="text-slate-600 leading-relaxed text-base">${CONFIG.kalimatE.description}</p>
+                <div class="pt-4">
+                  <button onclick="nextStep()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2">
+                    Buka Pertanyaan Utama <i data-lucide="heart" class="w-4 h-4 fill-[#C1A35F] text-[#C1A35F]"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+            break;
+
+          case 11: // PROPOSAL PAGE (YES / NO)
+            html = `
+              <div class="space-y-8 text-center slide-enter relative min-h-[320px] flex flex-col justify-between" id="proposalCard">
+                <div class="space-y-3">
+                  <div class="w-16 h-16 rounded-2xl bg-[#FDFBF7] border border-[#C1A35F] flex items-center justify-center mx-auto shadow-md">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-[#C1A35F]"></i>
+                  </div>
+                  <h2 class="text-2xl sm:text-3xl font-extrabold font-serif-display text-[#001B48] leading-snug">
+                    ${CONFIG.proposal.question}
+                  </h2>
+                  <p class="text-xs sm:text-sm text-slate-500 max-w-xs mx-auto">
+                    ${CONFIG.proposal.subtitle}
+                  </p>
+                </div>
+
+                <!-- Dynamic NO Button Message Label -->
+                <div id="noMsgContainer" class="h-6 text-xs font-semibold text-[#C1A35F] transition-all duration-300">
+                  <!-- Displayed dynamically upon clicking NO -->
+                </div>
+
+                <!-- YES & NO Buttons Area -->
+                <div class="relative w-full min-h-[150px] sm:min-h-[170px] flex items-center justify-center gap-6 py-4" id="btnBoundsArea">
+                  <button id="btnYes" onclick="handleYesClick()" class="btn-gold py-3.5 px-8 rounded-2xl font-bold text-base z-10 shadow-xl transition-all duration-300 transform-gpu">
+                    ${CONFIG.proposal.yesBtn}
+                  </button>
+
+                  <button id="btnNo" onclick="handleNoClick()" class="btn-secondary py-3.5 px-6 rounded-2xl font-semibold text-sm transition-all duration-300 z-30 cursor-pointer">
+                    ${CONFIG.proposal.noBtn}
+                  </button>
+                </div>
+              </div>
+            `;
+            break;
+
+          case 12: // DATE PICKER
+            const today = new Date().toISOString().split('T')[0];
+            html = `
+              <div class="space-y-6 slide-enter">
+                <div class="text-center space-y-2">
+                  <span class="text-xs font-semibold uppercase text-[#C1A35F] tracking-wider">Langkah 1 dari 3</span>
+                  <h2 class="text-2xl font-bold font-serif-display text-[#001B48]">Pilih Tanggal Pertemuan</h2>
+                  <p class="text-xs text-slate-500">Pilih tanggal santai yang paling pas buat kamu</p>
+                </div>
+
+                <div class="p-4 bg-slate-50/80 rounded-2xl border border-slate-200">
+                  <label class="block text-xs font-semibold text-[#001B48] mb-2">Tanggal Pertemuan:</label>
+                  <input type="date" id="inputDate" min="${today}" value="${STATE.selectedDate}"
+                         onchange="STATE.selectedDate = this.value"
+                         class="w-full p-3.5 bg-white border border-slate-300 rounded-xl text-[#001B48] font-medium focus:ring-2 focus:ring-[#C1A35F] outline-none">
+                </div>
+
+                <button onclick="validateAndGoToTime()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold">
+                  Lanjut ke Pilihan Waktu <i data-lucide="arrow-right" class="w-4 h-4 inline ml-1"></i>
+                </button>
+              </div>
+            `;
+            break;
+
+          case 13: // TIME PICKER
+            html = `
+              <div class="space-y-6 slide-enter">
+                <div class="text-center space-y-2">
+                  <span class="text-xs font-semibold uppercase text-[#C1A35F] tracking-wider">Langkah 2 dari 3</span>
+                  <h2 class="text-2xl font-bold font-serif-display text-[#001B48]">Pilih Waktu Pertemuan</h2>
+                  <p class="text-xs text-slate-500">Pilih jam tersantai buat bertemu</p>
+                </div>
+
+                <div class="p-4 bg-slate-50/80 rounded-2xl border border-slate-200">
+                  <label class="block text-xs font-semibold text-[#001B48] mb-2">Waktu / Jam Pertemuan:</label>
+                  <input type="time" id="inputTime" value="${STATE.selectedTime || '16:00'}"
+                         onchange="STATE.selectedTime = this.value"
+                         class="w-full p-3.5 bg-white border border-slate-300 rounded-xl text-[#001B48] font-medium focus:ring-2 focus:ring-[#C1A35F] outline-none">
+                </div>
+
+                <button onclick="validateAndGoToLocation()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold">
+                  Lanjut ke Lokasi Tempat <i data-lucide="arrow-right" class="w-4 h-4 inline ml-1"></i>
+                </button>
+              </div>
+            `;
+            break;
+
+          case 14: // LOCATION SELECTION (A to F)
+            html = `
+              <div class="space-y-4 slide-enter">
+                <div class="text-center space-y-1">
+                  <span class="text-xs font-semibold uppercase text-[#C1A35F] tracking-wider">Langkah 3 dari 3</span>
+                  <h2 class="text-xl font-bold font-serif-display text-[#001B48]">Mana Lokasi yang Kamu Sukai?</h2>
+                  <p class="text-xs text-slate-500">Pilih salah satu destinasi di bawah ini</p>
+                </div>
+
+                <div class="space-y-2 max-h-[180px] overflow-y-auto pr-1">
+                  ${CONFIG.locations.map(loc => `
+                    <div onclick="selectLocation('${loc.id}', '${loc.title.replace(/'/g, "\\'")}')" 
+                         class="option-card p-3 rounded-xl cursor-pointer flex items-center justify-between gap-3 text-left ${STATE.selectedLocationChoice === loc.id ? 'selected' : ''}">
+                      <div>
+                        <h4 class="text-sm font-bold text-[#001B48]">${loc.title}</h4>
+                        <p class="text-xs text-slate-500">${loc.desc}</p>
+                      </div>
+                      <div class="w-5 h-5 rounded-full border border-[#C1A35F] flex items-center justify-center text-xs font-bold ${STATE.selectedLocationChoice === loc.id ? 'bg-[#C1A35F] text-white' : 'text-transparent'}">
+                        ✓
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+
+                <!-- Textbox Catatan Tambahan -->
+                <div class="space-y-1.5 text-left pt-1">
+                  <label class="block text-xs font-semibold text-[#001B48] flex items-center gap-1.5">
+                    <i data-lucide="message-square" class="w-3.5 h-3.5 text-[#C1A35F]"></i>
+                    Pesan / Catatan Tambahan (Opsional):
+                  </label>
+                  <textarea id="inputUserNote" 
+                            oninput="STATE.userNote = this.value" 
+                            placeholder="Tulis pesan khusus, request jam/tempat, atau ucapan di sini..." 
+                            class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-xs text-[#001B48] focus:ring-2 focus:ring-[#C1A35F] outline-none h-16 resize-none shadow-sm transition-all duration-200">${STATE.userNote || ''}</textarea>
+                </div>
+
+                <button onclick="submitAllData()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold shadow-lg flex items-center justify-center gap-2">
+                  <span>Kirim Jawaban & Konfirmasi</span>
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+              </div>
+            `;
+            break;
+
+          case 15: // SUCCESS PAGE
+            html = `
+              <div class="space-y-6 text-center slide-enter">
+                <div class="w-20 h-20 rounded-full bg-[#FDFBF7] border-2 border-[#C1A35F] flex items-center justify-center mx-auto text-3xl shadow-xl">
+                  🎉
+                </div>
+                <div class="space-y-2">
+                  <h2 class="text-2xl font-bold font-serif-display text-[#001B48]">${CONFIG.success.title}</h2>
+                  <p class="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">${CONFIG.success.description}</p>
+                </div>
+
+                <!-- Summary Receipt Card -->
+                <div class="p-4 bg-[#FDFBF7] rounded-2xl border border-[#C1A35F]/40 text-left text-xs space-y-2 text-slate-700">
+                  <div class="flex justify-between border-b border-slate-200 pb-1.5">
+                    <span class="font-semibold text-slate-500">Tanggal:</span>
+                    <span class="font-bold text-[#001B48]">${formatDate(STATE.selectedDate)}</span>
+                  </div>
+                  <div class="flex justify-between border-b border-slate-200 pb-1.5">
+                    <span class="font-semibold text-slate-500">Waktu:</span>
+                    <span class="font-bold text-[#001B48]">${STATE.selectedTime || '-'}</span>
+                  </div>
+                  <div class="flex justify-between border-b border-slate-200 pb-1.5">
+                    <span class="font-semibold text-slate-500">Lokasi:</span>
+                    <span class="font-bold text-[#001B48]">${STATE.selectedLocationText || '-'}</span>
+                  </div>
+                  <div class="flex justify-between border-b border-slate-200 pb-1.5">
+                    <span class="font-semibold text-slate-500">Pesan:</span>
+                    <span class="font-bold text-[#001B48] max-w-[180px] text-right truncate">${STATE.userNote || '-'}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="font-semibold text-slate-500">Status:</span>
+                    <span class="font-bold text-emerald-700">Tersimpan & Terkirim ✨</span>
+                  </div>
+                </div>
+
+                <p class="text-[11px] text-slate-400">Sampai jumpa nanti ya! Have a wonderful day ❤️</p>
+              </div>
+            `;
+            break;
+
+          case 99: // EXIT PAGE (ZZ)
+            if (!STATE.noSubmitted) {
+              html = `
+                <div class="space-y-5 text-center slide-enter">
+                  <div class="w-16 h-16 rounded-full bg-[#FDFBF7] border border-[#C1A35F] flex items-center justify-center mx-auto text-2xl shadow-sm">
+                    💌
+                  </div>
+                  <div class="space-y-1.5">
+                    <h2 class="text-xl font-bold font-serif-display text-[#001B48]">${CONFIG.textZZ.title}</h2>
+                    <p class="text-xs text-slate-600 leading-relaxed max-w-xs mx-auto">${CONFIG.textZZ.description}</p>
+                  </div>
+
+                  <!-- Textbox Pesan untuk Nggak / Lain Kali Saja -->
+                  <div class="space-y-1.5 text-left bg-[#FDFBF7] p-3.5 rounded-2xl border border-[#C1A35F]/30 shadow-sm">
+                    <label class="block text-xs font-bold text-[#001B48] flex items-center gap-1.5">
+                      <i data-lucide="message-square" class="w-3.5 h-3.5 text-[#C1A35F]"></i>
+                      Ada Pesan / Tanggapan Tambahan? (Opsional)
+                    </label>
+                    <textarea id="inputUserNoteZZ" 
+                              oninput="STATE.userNote = this.value" 
+                              placeholder="Tulis tanggapan atau alasanmu di sini (tetap akan terkirim secara rahasia)..." 
+                              class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-xs text-[#001B48] focus:ring-2 focus:ring-[#C1A35F] outline-none h-20 resize-none shadow-sm">${STATE.userNote || ''}</textarea>
+                  </div>
+
+                  <button onclick="submitNoData()" class="btn-gold w-full py-3.5 px-6 rounded-2xl font-semibold shadow-lg flex items-center justify-center gap-2">
+                    <span>Kirim Pesan & Selesai</span>
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              `;
+            } else {
+              html = `
+                <div class="space-y-5 text-center slide-enter">
+                  <div class="w-16 h-16 rounded-full bg-[#FDFBF7] border-2 border-[#C1A35F] flex items-center justify-center mx-auto text-3xl shadow-md">
+                    ✨
+                  </div>
+                  <div class="space-y-1.5">
+                    <h2 class="text-xl font-bold font-serif-display text-[#001B48]">Tanggapan Terkirim! ❤️</h2>
+                    <p class="text-xs text-slate-600 leading-relaxed max-w-xs mx-auto">Terima kasih ya! Tanggapan dan pesanmu sudah tersimpan rapi.</p>
+                  </div>
+
+                  <div class="p-4 bg-[#FDFBF7] rounded-2xl border border-[#C1A35F]/30 text-left text-xs space-y-2 text-slate-700">
+                    <div class="flex justify-between border-b border-slate-200 pb-1.5">
+                      <span class="font-semibold text-slate-500">Jawaban:</span>
+                      <span class="font-bold text-[#001B48]">Lain Kali Saja 🙏</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="font-semibold text-slate-500">Pesan Tambahan:</span>
+                      <span class="font-bold text-[#001B48] max-w-[180px] text-right truncate">${STATE.userNote || '-'}</span>
+                    </div>
+                  </div>
+
+                  <button onclick="window.close() || location.reload()" class="btn-secondary w-full py-3.5 px-6 rounded-2xl font-semibold">
+                    ${CONFIG.textZZ.btnEnd}
+                  </button>
+                </div>
+              `;
+            }
+            break;
+        }
+
+        container.innerHTML = html;
+        updateFooterAndProgress();
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+      }
+
+      function updateFooterAndProgress() {
+        const dotsContainer = document.getElementById('stepProgressDots');
+        const footerPageNum = document.getElementById('footerPageNum');
+        
+        if (dotsContainer) {
+          dotsContainer.innerHTML = '';
+          const maxDots = 8;
+          for (let i = 1; i <= maxDots; i++) {
+            const dot = document.createElement('div');
+            const isActive = Math.ceil((STATE.currentStep / STATE.totalSteps) * maxDots) >= i;
+            dot.className = `w-1.5 h-1.5 rounded-full transition-all duration-300 ${isActive ? 'bg-[#C1A35F] w-3' : 'bg-slate-200'}`;
+            dotsContainer.appendChild(dot);
+          }
+        }
+
+        if (footerPageNum) {
+          footerPageNum.textContent = `${STATE.currentStep} / ${STATE.totalSteps}`;
+        }
+      }
+
+      /* ==========================================================================
+         5. NAVIGATION & ACTIONS
+         ========================================================================== */
+      function goToStep(stepNum) {
+        STATE.currentStep = stepNum;
+        renderStepContent(stepNum);
+      }
+
+      function nextStep() {
+        if (STATE.currentStep < STATE.totalSteps) {
+          goToStep(STATE.currentStep + 1);
+        }
+      }
+
+      /* Quiz Selection Helpers */
+      function selectQuiz1(choiceId, choiceText) {
+        STATE.quiz1Choice = choiceId;
+        STATE.quiz1Text = choiceText;
+        renderStepContent(6);
+      }
+
+      function submitQuiz1() {
+        if (!STATE.quiz1Choice) {
+          showToast("Mohon pilih salah satu jawaban kuis dulu ya! 😊");
+          return;
+        }
+        nextStep();
+      }
+
+      function selectQuiz2(choiceId, choiceText) {
+        STATE.quiz2Choice = choiceId;
+        STATE.quiz2Text = choiceText;
+        renderStepContent(8);
+      }
+
+      function submitQuiz2() {
+        if (!STATE.quiz2Choice) {
+          showToast("Mohon pilih salah satu jawaban kuis dulu ya! 😊");
+          return;
+        }
+        nextStep();
+      }
+
+      /* Location Selection Helper */
+      function selectLocation(locId, locTitle) {
+        STATE.selectedLocationChoice = locId;
+        STATE.selectedLocationText = locTitle;
+        renderStepContent(14);
+      }
+
+      /* Date & Time Validation */
+      function validateAndGoToTime() {
+        const inputDate = document.getElementById('inputDate');
+        if (inputDate && inputDate.value) {
+          STATE.selectedDate = inputDate.value;
+        }
+        if (!STATE.selectedDate) {
+          showToast("Mohon pilih tanggal terlebih dahulu ya! 📅");
+          return;
+        }
+        nextStep();
+      }
+
+      function validateAndGoToLocation() {
+        const inputTime = document.getElementById('inputTime');
+        if (inputTime && inputTime.value) {
+          STATE.selectedTime = inputTime.value;
+        }
+        if (!STATE.selectedTime) {
+          STATE.selectedTime = "16:00";
+        }
+        nextStep();
+      }
+
+      /* ==========================================================================
+         6. PROPOSAL (YES / NO BUTTON BEHAVIOR)
+         Smoothly shrinks and moves NO button strictly inside card/bounds
+         ========================================================================== */
+      function handleYesClick() {
+        triggerConfetti();
+        goToStep(12); // Go to Date Picker
+      }
+
+      function handleNoClick() {
+        STATE.noClickCount++;
+
+        const noBtn = document.getElementById('btnNo');
+        const yesBtn = document.getElementById('btnYes');
+        const boundsArea = document.getElementById('btnBoundsArea');
+        const msgContainer = document.getElementById('noMsgContainer');
+
+        if (!noBtn || !boundsArea) return;
+
+        // Make NO button absolute upon first click so it can teleport freely
+        if (noBtn.style.position !== 'absolute') {
+          noBtn.style.position = 'absolute';
+        }
+
+        // Display corresponding response message from CONFIG
+        if (msgContainer && CONFIG.noResponses[STATE.noClickCount - 1]) {
+          msgContainer.textContent = CONFIG.noResponses[STATE.noClickCount - 1];
+        }
+
+        // Stronger shrinking ratio with each click (down to minimum 0.25)
+        const scaleFactor = Math.max(0.25, 1 - (STATE.noClickCount * 0.08));
+        noBtn.style.transform = `scale(${scaleFactor})`;
+
+        // Make YES button grow enticingly as NO button shrinks!
+        if (yesBtn) {
+          const yesScale = Math.min(1.35, 1 + (STATE.noClickCount * 0.04));
+          yesBtn.style.transform = `scale(${yesScale})`;
+        }
+
+        // Always ensure NO button is on top (z-30) and interactive
+        noBtn.style.zIndex = '30';
+
+        // Teleport smoothly to random position inside boundsArea without overlapping yesBtn
+        const areaRect = boundsArea.getBoundingClientRect();
+        const yesRect = yesBtn ? yesBtn.getBoundingClientRect() : null;
+
+        const noWidth = (noBtn.offsetWidth || 90) * scaleFactor;
+        const noHeight = (noBtn.offsetHeight || 40) * scaleFactor;
+
+        const padding = 10;
+        const maxX = Math.max(10, areaRect.width - noWidth - padding * 2);
+        const maxY = Math.max(10, areaRect.height - noHeight - padding * 2);
+
+        let randomX = padding;
+        let randomY = padding;
+        let foundValid = false;
+        let attempts = 0;
+
+        while (!foundValid && attempts < 40) {
+          attempts++;
+          randomX = padding + Math.random() * maxX;
+          randomY = padding + Math.random() * maxY;
+
+          if (yesRect && areaRect) {
+            const noLeftAbs = areaRect.left + randomX;
+            const noTopAbs = areaRect.top + randomY;
+            const noRightAbs = noLeftAbs + noWidth;
+            const noBottomAbs = noTopAbs + noHeight;
+
+            // Generous safety gap (24px) around YES button so it NEVER covers "Mau Banget!"
+            const safety = 24;
+            const yesLeft = yesRect.left - safety;
+            const yesRight = yesRect.right + safety;
+            const yesTop = yesRect.top - safety;
+            const yesBottom = yesRect.bottom + safety;
+
+            const isOverlapping = !(noRightAbs < yesLeft || noLeftAbs > yesRight || noBottomAbs < yesTop || noTopAbs > yesBottom);
+            if (!isOverlapping) {
+              foundValid = true;
+            }
+          } else {
+            foundValid = true;
+          }
+        }
+
+        // Fallback if random sampling fails to find a spot: force to corners outside YES button
+        if (!foundValid && yesRect && areaRect) {
+          const yesCenterRelX = (yesRect.left + yesRect.width / 2) - areaRect.left;
+          if (yesCenterRelX > areaRect.width / 2) {
+            randomX = padding; // move to far left
+          } else {
+            randomX = Math.max(padding, areaRect.width - noWidth - padding); // move to far right
+          }
+          randomY = Math.max(padding, areaRect.height - noHeight - padding);
+        }
+
+        noBtn.style.left = `${randomX}px`;
+        noBtn.style.top = `${randomY}px`;
+
+        // Check if click count reached 10
+        if (STATE.noClickCount >= 10) {
+          showPopupPP();
+        }
+      }
+
+      function showPopupPP() {
+        const modal = document.getElementById('popupModalPP');
+        const title = document.getElementById('popupTitle');
+        const desc = document.getElementById('popupDesc');
+        const btnBack = document.getElementById('btnPopupBack');
+        const btnNextTime = document.getElementById('btnPopupNextTime');
+
+        if (title) title.textContent = CONFIG.popupPP.title;
+        if (desc) desc.textContent = CONFIG.popupPP.description;
+        if (btnBack) btnBack.textContent = CONFIG.popupPP.btnBack;
+        if (btnNextTime) btnNextTime.textContent = CONFIG.popupPP.btnNextTime;
+
+        if (modal) {
+          modal.classList.remove('opacity-0', 'pointer-events-none');
+          modal.classList.add('opacity-100');
+        }
+
+        if (btnBack) {
+          btnBack.onclick = () => {
+            closePopupPP();
+            // Reset NO click state
+            STATE.noClickCount = 0;
+            renderStepContent(11);
+          };
+        }
+
+        if (btnNextTime) {
+          btnNextTime.onclick = () => {
+            closePopupPP();
+            goToStep(99); // Exit page ZZ
+          };
+        }
+      }
+
+      function closePopupPP() {
+        const modal = document.getElementById('popupModalPP');
+        if (modal) {
+          modal.classList.remove('opacity-100');
+          modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+      }
+
+      /* ==========================================================================
+         7. SUBMIT & API CALL
+         Sends data payload to Google Apps Script Backend (Code.gs)
+         ========================================================================== */
+      async function submitAllData() {
+        // Validation check
+        if (!STATE.quiz1Choice) {
+          showToast("Kuis 1 belum diisi!");
+          return;
+        }
+        if (!STATE.quiz2Choice) {
+          showToast("Kuis 2 belum diisi!");
+          return;
+        }
+        if (!STATE.selectedDate) {
+          showToast("Tanggal belum dipilih!");
+          return;
+        }
+        if (!STATE.selectedTime) {
+          showToast("Waktu belum dipilih!");
+          return;
+        }
+        if (!STATE.selectedLocationChoice) {
+          showToast("Lokasi belum dipilih!");
+          return;
+        }
+
+        const payload = {
+          status: "Mau Banget!",
+          quiz1: {
+            choice: STATE.quiz1Choice,
+            text: STATE.quiz1Text
+          },
+          quiz2: {
+            choice: STATE.quiz2Choice,
+            text: STATE.quiz2Text
+          },
+          date: STATE.selectedDate,
+          time: STATE.selectedTime,
+          location: {
+            choice: STATE.selectedLocationChoice,
+            text: STATE.selectedLocationText
+          },
+          note: STATE.userNote || "-",
+          submittedAt: new Date().toISOString()
+        };
+
+        STATE.isSubmitting = true;
+        showToast("Mengirim konfirmasi... ⏳");
+
+        try {
+          if (CONFIG.apiUrl && CONFIG.apiUrl !== "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
+            await fetch(CONFIG.apiUrl, {
+              method: "POST",
+              mode: "no-cors", // Google Apps Script Web App standard mode
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(payload)
+            });
+          } else {
+            console.log("Mock Submit Payload:", payload);
+          }
+        } catch (err) {
+          console.warn("API Call note:", err);
+        } finally {
+          STATE.isSubmitting = false;
+          triggerConfetti();
+          goToStep(15); // Go to Success Screen
+        }
+      }
+
+      async function submitNoData() {
+        const payload = {
+          status: "Lain Kali Saja",
+          quiz1: {
+            choice: STATE.quiz1Choice || "-",
+            text: STATE.quiz1Text || "-"
+          },
+          quiz2: {
+            choice: STATE.quiz2Choice || "-",
+            text: STATE.quiz2Text || "-"
+          },
+          date: "-",
+          time: "-",
+          location: {
+            choice: "-",
+            text: "-"
+          },
+          note: STATE.userNote || "-",
+          submittedAt: new Date().toISOString()
+        };
+
+        STATE.isSubmitting = true;
+        showToast("Mengirim tanggapanmu... ⏳");
+
+        try {
+          if (CONFIG.apiUrl && CONFIG.apiUrl !== "https://script.google.com/macros/s/AKfycbxjP5vLD7sGiJ5SPHTHnomfvb7KvGua9gfPGwkGwirs0IhyfyOfXeIhzmI4F1xdnmyr/exec") {
+            await fetch(CONFIG.apiUrl, {
+              method: "POST",
+              mode: "no-cors",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(payload)
+            });
+          } else {
+            console.log("Mock Submit NO Payload:", payload);
+          }
+        } catch (err) {
+          console.warn("API Call note:", err);
+        } finally {
+          STATE.isSubmitting = false;
+          STATE.noSubmitted = true;
+          showToast("Tanggapan & pesan berhasil terkirim! Terima kasih ❤️");
+          renderStepContent(99);
+        }
+      }
+
+      /* ==========================================================================
+         8. INITIALIZATION & LOADING SIMULATION
+         ========================================================================== */
+      window.addEventListener('DOMContentLoaded', () => {
+        // Start on Loading screen
+        renderStepContent(0);
+
+        // Animate loading bar and auto-advance to Slide 1
+        setTimeout(() => {
+          const bar = document.getElementById('loadingBar');
+          if (bar) bar.style.width = '100%';
+        }, 100);
+
+        setTimeout(() => {
+          goToStep(1); // Auto transition to Perkenalan
+        }, 1600);
+      });
+    </script>
+  </body>
 </html>
+
+
