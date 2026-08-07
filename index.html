@@ -42,16 +42,19 @@
       font-size: 14px;
       color: #333;
     }
-    input, textarea {
+    textarea {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 14px;
-    }
-    textarea {
       resize: vertical;
-      height: 100px;
+      height: 120px;
+      outline: none;
+    }
+    textarea:focus {
+      border-color: #0088cc;
+      box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.2);
     }
     button {
       width: 100%;
@@ -89,21 +92,11 @@
 <body>
 
   <div class="container">
-    <h2>Kirim Pesan Bot Telegram 🤖</h2>
+    <h2>Kirim Pesan ke Telegram 🤖</h2>
     
     <form id="telegramForm">
       <div class="form-group">
-        <label for="token">Bot Token 🔑</label>
-        <input type="text" id="token" placeholder="Masukkan Bot Token Anda..." required>
-      </div>
-
-      <div class="form-group">
-        <label for="chatId">Chat ID 🆔</label>
-        <input type="text" id="chatId" placeholder="Masukkan Chat ID Anda..." required>
-      </div>
-
-      <div class="form-group">
-        <label for="message">Pesan 💬</label>
+        <label for="message">Tulis Pesan Anda 💬</label>
         <textarea id="message" placeholder="Tuliskan pesan di sini..." required></textarea>
       </div>
 
@@ -114,11 +107,13 @@
   </div>
 
   <script>
+    // ⚙️ PENGATURAN BOT TELEGRAM (Ganti nilai variabel di bawah ini)
+    const TELEGRAM_BOT_TOKEN = "8825208996:AAEizA85TjLe5q_ka2FOg87h_se19JYv3nM"; // Contoh: "123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ" 🔑
+    const TELEGRAM_CHAT_ID = "558806686";     // Contoh: "123456789" 🆔
+
     document.getElementById('telegramForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      const token = document.getElementById('token').value.trim();
-      const chatId = document.getElementById('chatId').value.trim();
       const message = document.getElementById('message').value.trim();
       const statusDiv = document.getElementById('status');
       const btnSubmit = document.getElementById('btnSubmit');
@@ -131,7 +126,7 @@
       statusDiv.innerText = 'Sedang mengirim pesan... ⏳';
       btnSubmit.disabled = true;
 
-      const url = `https://api.telegram.org/bot${token}/sendMessage`;
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
       try {
         const response = await fetch(url, {
@@ -140,7 +135,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            chat_id: chatId,
+            chat_id: TELEGRAM_CHAT_ID,
             text: message,
             parse_mode: 'HTML'
           })
@@ -151,15 +146,15 @@
         if (data.ok) {
           statusDiv.className = 'success';
           statusDiv.innerText = 'Pesan berhasil terkirim ke Telegram! 🎉';
-          document.getElementById('message').value = ''; // Kosongkan form pesan
+          document.getElementById('message').value = ''; // Kosongkan kolom teks setelah terkirim
         } else {
           statusDiv.className = 'error';
-          statusDiv.innerText = 'Gagal: ' + (data.description || 'Token atau Chat ID salah!') + ' ❌';
+          statusDiv.innerText = 'Gagal: ' + (data.description || 'Terjadi kesalahan') + ' ❌';
         }
       } catch (error) {
         console.error('Error:', error);
         statusDiv.className = 'error';
-        statusDiv.innerText = 'Terjadi kesalahan jaringan atau koneksi! ⚠️';
+        statusDiv.innerText = 'Terjadi kesalahan jaringan atau CORS! ⚠️';
       } finally {
         btnSubmit.disabled = false;
       }
